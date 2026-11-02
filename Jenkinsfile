@@ -27,11 +27,9 @@ pipeline {
         }
         stage("Run as a container") {
             steps {
-                echo "Running as a container"
-                // Stop and remove the container if it already exists from a previous pipeline build
-                sh 'docker rm -f java-hello-container || true'
-                sh "docker run --name java-hello-container java-hello:latest"
-            }
-        }
+                echo "Running as a cluster"
+		sh "kubectl apply -f 'k8s.yml'"
+		}
+	}
     }
 }
