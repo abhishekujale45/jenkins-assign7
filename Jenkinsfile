@@ -8,22 +8,19 @@ pipeline {
                 sh 'git clone https://github.com/abhishekujale45/jenkins-assign7'
             }
         }
-        stage('Compile the code') {
-            steps {
-                echo 'Compiling the code'
-                // Use dir() so Jenkins runs the commands inside the cloned folder
-                dir('jenkins-assign7') {
-                    sh 'javac Main.java'
-                }
-            }
-        }
-        stage('Running the code') {
-            steps {
-                echo 'Output of the code is'
-                dir('jenkins-assign7') {
-                    sh 'java Main'
-                }
-            }
-        }
+	stage('building the image') {
+		steps {
+			echo "building the image"
+			sh 'docker build -t java-hello:latest .'
+		}
+	}
+	
+	stage("Run as a container")	{
+		steps {
+			echo "Running as a container"
+			sh "docker run --name java-hello-container java-hello:latest"
+		}
+	}
+        
     }
 }
