@@ -5,7 +5,8 @@ pipeline {
 		stage("clone the code")
 		{
 			echo "Cloning the code"
-			sh ""
+			sh " git clone https://github.com/abhishekujale45/jenkins-assign7"
+			sh "cd jenkins-assign7"
 		}
 		
 		stage("Compile the code")
