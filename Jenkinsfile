@@ -25,11 +25,17 @@ pipeline {
                 }
             }
         }
-        stage("Run as a container") {
+         stage("Run as a container") {
             steps {
                 echo "Running as a cluster"
-		sh "kubectl apply -f 'k8s.yml'"
-		}
-	}
+                dir('jenkins-assign7') {
+                    // Bind your secret file credential to an environment variable
+                    withCredentials([file(credentialsId: 'minikube-config', variable: 'KUBECONFIG_FILE')]) {
+                        // Pass the variable securely to kubectl using single quotes to avoid Groovy interpolation
+                        sh 'kubectl --kubeconfig=$KUBECONFIG_FILE apply -f k8s.yml'
+                    }
+                }
+            }
+        }
     }
 }
