@@ -16,6 +16,15 @@ pipeline {
                 }
             }
         }
+	stage("Push to Docker Hub"){
+            steps{
+                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker tag java-hello:latest ${env.dockerHubUser}/java-hello:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker push ${env.dockerHubUser}/java-hello:latest"
+                }
+            }
+        }
         stage("Run as a container") {
             steps {
                 echo "Running as a container"
