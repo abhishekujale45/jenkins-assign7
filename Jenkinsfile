@@ -5,13 +5,17 @@ pipeline {
             steps {
                 echo 'Cloning the code'
                 // Clean the directory if it exists, or let Jenkins handle checkout automatically
-                sh 'git clone https://github.com/abhishekujale45/jenkins-assign7'
+				sh "rm -rf jenkins-assign7"
+                sh 'git clone https://github.com/abhishekujale45/jenkins-assign7.git'
             }
         }
 	stage('building the image') {
 		steps {
 			echo "building the image"
-			sh 'docker build -t java-hello:latest .'
+			
+			dir('jenkins-assign7'){
+				sh 'docker build -t java-hello:latest .'
+			}
 		}
 	}
 	
